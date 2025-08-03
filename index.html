@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aviator Crash Demo</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; }
+    #multiplier { font-size: 48px; margin-top: 50px; color: red; }
+    #status { font-size: 24px; margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 20px; margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <h1>Aviator Crash Demo</h1>
+  <div id="multiplier">1.00x</div>
+  <div id="status">Game Running...</div>
+  <button onclick="cashOut()">Cash Out</button>
+
+  <script>
+    let multiplier = 1.00;
+    let interval;
+    let crashed = false;
+
+    function startGame() {
+      interval = setInterval(() => {
+        multiplier += 0.01;
+        multiplier = parseFloat(multiplier.toFixed(2));
+        document.getElementById("multiplier").innerText = multiplier + "x";
+
+        if (Math.random() < 0.01) {
+          clearInterval(interval);
+          document.getElementById("status").innerText = "💥 Crashed at " + multiplier + "x!";
+          crashed = true;
+        }
+      }, 100);
+    }
+
+    function cashOut() {
+      if (!crashed) {
+        clearInterval(interval);
+        document.getElementById("status").innerText = "✅ Cashed out at " + multiplier + "x!";
+      }
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
